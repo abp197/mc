@@ -1,0 +1,32 @@
+#include <p18f4550.h>
+
+// Delay function, for a more accurate delay, consider using a timer.
+void delay(unsigned int time)
+{
+    unsigned int i, j;
+    // Simple software delay loop
+    for(i = 0; i < time; i++)
+    {
+        for(j = 0; j < 5000; j++);
+    }
+}
+
+void main(void)
+{
+    // Configure PORTB pins as output
+    TRISB = 0x00; // Set all PORTB pins to output (0 means output)
+
+    // Optionally, ensure that all PORTB pins are digital (this might be necessary depending on your setup)
+    ADCON1 = 0x06; // Configure pins as digital (if using analog input pins on PORTB)
+
+    while(1)
+    {
+        // Set lower nibble (RB0-RB3) high, upper nibble (RB4-RB7) low
+        PORTB = 0x0F;
+        delay(200); // Delay for 200 iterations
+
+        // Set lower nibble (RB0-RB3) low, upper nibble (RB4-RB7) high
+        PORTB = 0xF0;
+        delay(200); // Delay for 200 iterations
+    }
+}
